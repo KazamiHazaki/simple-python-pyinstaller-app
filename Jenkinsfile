@@ -28,20 +28,22 @@ pipeline {
                 }
             }
         }
+        
+        
+            timeout(time: 1, unit: 'MINUTES') 
+            {
+            input message: 'Are you sure you want to continue with the deployment?', ok: 'Yes'
+            }
+            
+            
          stage('Deploy') {
-           
+        
             
             agent any
             environment {
                 VOLUME = '$(pwd)/sources:/src'
                 IMAGE = 'cdrx/pyinstaller-linux:python2'
             }
-            
-             timeout(time: 1, unit: 'MINUTES') 
-            {
-            input message: 'Are you sure you want to continue with the deployment?', ok: 'Yes'
-            }
-            
             
             steps {
                 dir(path: env.BUILD_ID) {
