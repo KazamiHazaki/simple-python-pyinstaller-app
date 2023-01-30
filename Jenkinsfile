@@ -38,9 +38,8 @@ pipeline {
                 dir(path: env.BUILD_ID) {
                     unstash(name: 'compiled-results')
                     sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
-                    sh "echo 'Waiting for 1 minute...'"
+                    sh "input message : 'Sudah selesai mencoba Python app? (Klik "Proceed" untuk mengakhiri)"
                     sh "sleep 60"
-                    sh "echo 'Deploy Completed'"
                 }
             }
             post {
