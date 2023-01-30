@@ -35,7 +35,7 @@ pipeline {
                 IMAGE = 'cdrx/pyinstaller-linux:python2'
             }
             steps {
-                 timeout(time: 1, unit: 'MINUTE') {
+                 timeout(time: 60, unit: 'SECONDS') {
                 input message: 'Continue with Deploy?', ok: 'Yes'
                 dir(path: env.BUILD_ID) { 
                     unstash(name: 'compiled-results') 
