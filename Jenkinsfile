@@ -30,19 +30,21 @@ pipeline {
         }
          stage('Deploy') {
             agent any
+            
+            
+            options {
+                timeout(time: 1, unit: 'MINUTES')
+            }
+            
             environment {
                 VOLUME = '$(pwd)/sources:/src'
                 IMAGE = 'cdrx/pyinstaller-linux:python2'
             }
             
-            timeout(time: 60, unit: 'SECONDS') {
-     input 'Do you want to proceed to the Deployment?'
-} 
             steps {
                 dir(path: env.BUILD_ID) {
                     unstash(name: 'compiled-results')
                     sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
-                     
                 }
             }
             post {
