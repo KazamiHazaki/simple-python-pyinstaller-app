@@ -29,13 +29,12 @@ pipeline {
             }
         }
          stage('Deploy') {
-            agent any
-            
-            
-            options {
-                timeout(time: 1, unit: 'MINUTES')
+            timeout(time: 1, unit: 'MINUTES') 
+            {
+            input message: 'Are you sure you want to continue with the deployment?', ok: 'Yes'
             }
             
+            agent any
             environment {
                 VOLUME = '$(pwd)/sources:/src'
                 IMAGE = 'cdrx/pyinstaller-linux:python2'
