@@ -28,6 +28,16 @@ pipeline {
                 }
             }
         }
+        
+        
+        stage('Manual Approve') {
+            steps {
+                input message: 'Lanjutkan ke tahap Deploy?'
+                }
+            }
+        
+        
+        
            stage('Deploy') { 
             agent any
             environment { 
@@ -35,12 +45,13 @@ pipeline {
                 IMAGE = 'cdrx/pyinstaller-linux:python2'
             }
             steps {
-                 timeout(time: 60, unit: 'SECONDS') {
-                input message: 'Continue with Deploy?', ok: 'Yes'
+                sh "echo 'Wait 1 minute'"
+                sh "sleep 60"
+                
                 dir(path: env.BUILD_ID) { 
                     unstash(name: 'compiled-results') 
+                    
                     sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
-                    }
                 }
             }
             post {
